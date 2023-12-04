@@ -6,6 +6,7 @@ import com.loan.exception.LoanOwnerException;
 import com.loan.request.SubmitLoanRequest;
 import com.loan.response.SubmitLoanResponse;
 import com.loan.service.LoanService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +28,9 @@ public class LoanController {
 
     @PostMapping(value = "/api/loan", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<SubmitLoanResponse> submitLoan(@RequestBody SubmitLoanRequest loanRequest) {
-        if (loanRequest.getPrincipalAmount() < 100 || loanRequest.getPrincipalAmount() > 99999) {
-            throw new LoanBusinessException(
-                    "Loan principle amount must be between 100-99999, currently: " +
-                            loanRequest.getPrincipalAmount());
-        }
-
-        var age = Period.between(loanRequest.getCustomer().getBirthDate(), LocalDate.now()).getYears();
+    ResponseEntity<SubmitLoanResponse> submitLoan(@RequestBody @Valid SubmitLoanRequest loanRequest) {
+        var birthDate = loanRequest.getCustomer().getBirthDate();
+        var age = Period.between(birthDate, LocalDate.now()).getYears();
         if (age < 18 || age > 70) {
             throw new LoanBusinessException(
                     "Customer age must be between 18 and 70, currently: " +

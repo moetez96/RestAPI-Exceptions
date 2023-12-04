@@ -3,12 +3,19 @@ package com.loan.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Range;
 
 public class SubmitLoanRequest {
 
+    @Range(min = 100, max = 99999)
     private int principalAmount;
+    @Range(min = 100, max = 99999)
     private int termMonths;
+    @Valid
     private Collateral collateral;
+    @Valid
     private Customer customer;
 
     public int getPrincipalAmount() {
@@ -43,10 +50,14 @@ public class SubmitLoanRequest {
         this.customer = customer;
     }
 
-    public class Collateral {
+    public static class Collateral {
 
+        @Pattern(regexp = "TOYOTA|HONDA|BMW|FORD", flags = Pattern.Flag.CASE_INSENSITIVE)
         private String brand;
+        @Size(max = 50)
+        @NotBlank
         private String model;
+        @Min(2015)
         private int manufacturingYear;
 
         public String getBrand() {
@@ -74,12 +85,16 @@ public class SubmitLoanRequest {
         }
     }
 
-    public class Customer {
+    public static class Customer {
 
+        @Pattern(regexp = "^[A-Za-z ]{3,50}$")
         private String name;
         @JsonFormat(pattern = "yyyy-MM-dd")
         private LocalDate birthDate;
+        @Min(500)
         private int monthlyIncome;
+        @Size(max = 50)
+        @NotBlank
         private String idNumber;
 
         public String getName() {

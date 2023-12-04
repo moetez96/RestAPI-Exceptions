@@ -7,6 +7,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
@@ -52,6 +55,17 @@ public class ApiExceptionHandler {
         response.setMessage(ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    ResponseEntity<ExceptionResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        var message = ex.getFieldErrors().stream().map(f -> f.getField() + " (value: " + f.getRejectedValue() +
+                ") " + f.getDefaultMessage()).collect(Collectors.joining(", "));
+        var response = new ExceptionResponse();
+        response.setSummary("Invalid input arguments");
+        response.setMessage(message);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
 }
