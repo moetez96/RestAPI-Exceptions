@@ -11,7 +11,7 @@ public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private UUID loanId;
     private int principalAmount;
     private int termMonths;
     @Column(length = 50)
@@ -54,12 +54,12 @@ public class Loan {
         this.monthlyInstallment = monthlyInstallment;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getLoanId() {
+        return loanId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setLoanId(UUID loanId) {
+        this.loanId = loanId;
     }
 
     public int getPrincipalAmount() {
