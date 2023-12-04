@@ -22,10 +22,8 @@ public class LoanController {
 
     @PostMapping(value = "/api/loan", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<SubmitLoanResponse> submitLoan(@RequestBody SubmitLoanRequest loanRequest,
-                                                  @RequestHeader(name = HTTP_HEADER_PARTNER_SECRET)
-                                                  String partnerSecret) {
-        var savedLoan = this.loanService.saveLoan(loanRequest, partnerSecret);
+    ResponseEntity<SubmitLoanResponse> submitLoan(@RequestBody SubmitLoanRequest loanRequest) {
+        var savedLoan = this.loanService.saveLoan(loanRequest, HTTP_HEADER_PARTNER_SECRET);
         var submitLoanResponse = new SubmitLoanResponse();
 
         submitLoanResponse.setLoanId(savedLoan.getLoanId());
@@ -36,10 +34,8 @@ public class LoanController {
     }
 
     @GetMapping(value = "/api/loan", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Loan> findLoan(@RequestParam(name = "loan_id") String loanId,
-                                  @RequestHeader(name = HTTP_HEADER_PARTNER_SECRET)
-                                  String partnerSecret) {
-        var existingLoan = this.loanService.findLoan(loanId, partnerSecret);
+    ResponseEntity<Loan> findLoan(@RequestParam(name = "loan_id") String loanId) {
+        var existingLoan = this.loanService.findLoan(loanId, HTTP_HEADER_PARTNER_SECRET);
 
         return ResponseEntity.ok().body(existingLoan);
     }
