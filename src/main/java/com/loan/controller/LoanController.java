@@ -2,6 +2,7 @@ package com.loan.controller;
 
 import com.loan.entity.Loan;
 import com.loan.exception.LoanBusinessException;
+import com.loan.exception.LoanOwnerException;
 import com.loan.request.SubmitLoanRequest;
 import com.loan.response.SubmitLoanResponse;
 import com.loan.service.LoanService;
@@ -53,6 +54,14 @@ public class LoanController {
     @GetMapping(value = "/api/loan", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Loan> findLoan(@RequestParam(name = "loan_id") String loanId) {
         var existingLoan = this.loanService.findLoan(loanId, HTTP_HEADER_PARTNER_SECRET);
+
+        if (existingLoan == null) {
+            if (this.loanService.isLoanIdExist(loanId)) {
+                throw new LoanOwnerException("You cannot access this loan: " + loanId);
+            } else {
+                throw new LoanBusinessException("Loan " + loanId + " does not exist");
+            }
+        }
 
         return ResponseEntity.ok().body(existingLoan);
     }

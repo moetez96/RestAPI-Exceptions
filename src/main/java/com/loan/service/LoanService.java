@@ -39,6 +39,10 @@ public class LoanService {
                 .orElse(null);
     }
 
+    public boolean isLoanIdExist(String loanId) {
+        return this.loanRepository.existsById(UUID.fromString(loanId));
+    }
+
     private Loan map(SubmitLoanRequest original) {
         var result = new Loan();
 
