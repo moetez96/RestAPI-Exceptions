@@ -15,7 +15,7 @@ public class Loan {
     private int principalAmount;
     private int termMonths;
     @Column(length = 50)
-    private String collateralBran;
+    private String collateralBrand;
     @Column(length = 50)
     private String collateralModel;
     private int collateralManufacturingYear;
@@ -35,13 +35,13 @@ public class Loan {
     public Loan() {
     }
 
-    public Loan(int principalAmount, int termMonths, String collateralBran, String collateralModel,
+    public Loan(int principalAmount, int termMonths, String collateralBrand, String collateralModel,
                 int collateralManufacturingYear, String customerName, LocalDate customerBirthDate,
                 int customerMonthlyIncome, String customerIdNumber, String createdBy, String status,
                 int loanInterest, int monthlyInstallment) {
         this.principalAmount = principalAmount;
         this.termMonths = termMonths;
-        this.collateralBran = collateralBran;
+        this.collateralBrand = collateralBrand;
         this.collateralModel = collateralModel;
         this.collateralManufacturingYear = collateralManufacturingYear;
         this.customerName = customerName;
@@ -78,12 +78,12 @@ public class Loan {
         this.termMonths = termMonths;
     }
 
-    public String getCollateralBran() {
-        return collateralBran;
+    public String getCollateralBrand() {
+        return collateralBrand;
     }
 
-    public void setCollateralBran(String collateralBran) {
-        this.collateralBran = collateralBran;
+    public void setCollateralBrand(String collateralBrand) {
+        this.collateralBrand = collateralBrand;
     }
 
     public String getCollateralModel() {

@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface LoanRepository extends JpaRepository<Loan, UUID> {
 
+    Optional<Loan> findByLoanIdAndCreatedBy(UUID loanId, String partnerSecret);
 }
