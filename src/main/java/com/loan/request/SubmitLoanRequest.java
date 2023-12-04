@@ -3,6 +3,8 @@ package com.loan.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
+
+import com.loan.exception.Age;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Range;
@@ -90,6 +92,7 @@ public class SubmitLoanRequest {
         @Pattern(regexp = "^[A-Za-z ]{3,50}$")
         private String name;
         @JsonFormat(pattern = "yyyy-MM-dd")
+        @Age(min = 18, max = 70)
         private LocalDate birthDate;
         @Min(500)
         private int monthlyIncome;

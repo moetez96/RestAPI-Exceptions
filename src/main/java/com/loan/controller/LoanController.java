@@ -29,14 +29,6 @@ public class LoanController {
     @PostMapping(value = "/api/loan", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<SubmitLoanResponse> submitLoan(@RequestBody @Valid SubmitLoanRequest loanRequest) {
-        var birthDate = loanRequest.getCustomer().getBirthDate();
-        var age = Period.between(birthDate, LocalDate.now()).getYears();
-        if (age < 18 || age > 70) {
-            throw new LoanBusinessException(
-                    "Customer age must be between 18 and 70, currently: " +
-                            age);
-        }
-
         var savedLoan = this.loanService.saveLoan(loanRequest, HTTP_HEADER_PARTNER_SECRET);
         var submitLoanResponse = new SubmitLoanResponse();
 
