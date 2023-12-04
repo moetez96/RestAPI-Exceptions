@@ -36,5 +36,14 @@ public class ApiExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
+    @ExceptionHandler({LoanBusinessException.class})
+    ResponseEntity<ExceptionResponse> handleLoanBusinessException(LoanBusinessException ex) {
+        var response = new ExceptionResponse();
+        response.setSummary("Got loan business exception");
+        response.setMessage(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
 
 }
